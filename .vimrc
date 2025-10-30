@@ -312,3 +312,16 @@ elseif has('python3')
   map <C-I> :py3f ~/.vim-clang-format.py<cr>
   imap <C-I> <c-o>:py3f ~/.vim-clang-format.py<cr>
 endif
+
+" Enable Backup Files
+set backup
+set backupdir=~/.vim/backup//
+set backupext=.bak
+
+" Enable Swap Files (for crash recovery)
+set swapfile
+set directory=~/.vim/swap//
+
+" Enable Undo Files (Persistent Undo)
+set undofile
+set undodir=~/.vim/undo//
