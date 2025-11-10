@@ -79,7 +79,8 @@ IRed='\[\033[0;91m\]'
 Color_Off='\[\033[0m\]'
 
 # 1. Define the LEFT part of your prompt
-PS1_LEFT="\$(if [[ \$? == 0 ]]; then echo \"\[\033[0;94m\]\"; else echo \"\[\033[0;31m\]\"; fi)\342\226\210\342\226\210 \t | \D{%d-%m-%y} : \u@\h:\w "
+#PS1_LEFT="\$(if [[ \$? == 0 ]]; then echo \"\[\033[0;94m\]\"; else echo \"\[\033[0;31m\]\"; fi)\342\226\210\342\226\210 \t | \D{%d-%m-%y} : \u@\h:\w "
+PS1_LEFT="\$(if [[ \$? == 0 ]]; then echo \"\[\033[0;94m\]\"; else echo \"\[\033[0;31m\]\"; fi)\342\226\210\342\226\210 \t (\D{%d/%m}) \u@\h \[\e[33m\]\w\[\e[0m\] "
 
 # Your git status logic
 PS1_LEFT+='$(git branch &>/dev/null;\
