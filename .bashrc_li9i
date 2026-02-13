@@ -138,6 +138,25 @@ alias ncal=' ncal -M -b'
 # ls after cd: my absolute favorite
 cd() { builtin cd "$@" && ls; }
 cp() { rsync -ah --progress --info=progress2 "$@"; }
+
+# copy a file to a destination and turn its target name into its former path where slashes are turned to dashes
+cp_flatten() {
+    local src="$1"
+    local dst_dir="$2"
+
+    [[ -z "$src" || -z "$dst_dir" ]] && { echo "Usage: cp_flatten <source> <dest_dir>"; return 1; }
+    [[ ! -f "$src" ]] && { echo "Error: Source not a file: $src"; return 1; }
+    [[ ! -d "$dst_dir" ]] && { echo "Error: Destination not a directory: $dst_dir"; return 1; }
+
+    # Normalize: absolute path without leading slash
+    local norm=$(realpath -m "$src" 2>/dev/null || readlink -f "$src" 2>/dev/null | sed 's|^/||')
+
+    # Replace slashes with dashes
+    local flat="${norm//\//-}"
+
+    cp "$src" "$dst_dir/$flat"
+    echo "Copied to: $dst_dir/$flat"
+}
 # ------------------------------------------------------------------------------
 # Get the unix timestamp of now with nanosec resolution
 alias unix_timestamp="date +'%s.%N'"
