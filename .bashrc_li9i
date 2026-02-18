@@ -133,6 +133,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias g='gvim'
 alias ncal=' ncal -M -b'
 # ------------------------------------------------------------------------------
 # ls after cd: my absolute favorite
