@@ -134,7 +134,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias g='gvim'
-alias ncal=' ncal -M -b'
+alias ncal=' ncal -M -b -w'
 # ------------------------------------------------------------------------------
 # ls after cd: my absolute favorite
 cd() { builtin cd "$@" && ls; }
