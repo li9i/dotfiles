@@ -152,8 +152,8 @@ cp_flatten() {
     # Normalize: absolute path without leading slash
     local norm=$(realpath -m "$src" 2>/dev/null || readlink -f "$src" 2>/dev/null | sed 's|^/||')
 
-    # Replace slashes with dashes
-    local flat="${norm//\//-}"
+    # Replace slashes with pipes
+    local flat="${norm//\//|}"
 
     cp "$src" "$dst_dir/$flat"
     echo "Copied to: $dst_dir/$flat"
