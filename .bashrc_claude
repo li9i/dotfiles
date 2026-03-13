@@ -101,3 +101,108 @@ for line in sys.stdin:
         print('---')
 " < "$jsonl"
 }
+
+# ------------------------------------------------------------------------------
+# Same as `claude-transcript` but you may redirect the output to a markdown
+# document.
+#
+# Usage:
+# Head into any filesystem directory of which a claude project exists
+# (e.g. /home/alex/Projects/kion/tasks/task-04-movex-249/ngp-movex) and execute
+# `claude-transcript-md > /tmp/markdown.md`.
+# A menu will pop up with the existing conversations under that project. The
+# transcript will be placed in /tmp/markdown.md
+# ------------------------------------------------------------------------------
+claude-transcript-md() {
+    local jsonl="$1"
+
+    if [ -z "$jsonl" ]; then
+        local cwd_pattern="-$(pwd | sed 's|^/||; s|/|-|g')"
+
+        local project_dirs=()
+        while IFS= read -r d; do
+            project_dirs+=("$d")
+        done < <(find "$HOME/.claude/projects" -maxdepth 1 -type d -name "${cwd_pattern}*" 2>/dev/null)
+
+        if [ ${#project_dirs[@]} -eq 0 ]; then
+            echo "No Claude conversations found for $(pwd)" >&2
+            return 1
+        fi
+
+        local files=()
+        for dir in "${project_dirs[@]}"; do
+            while IFS= read -r f; do
+                files+=("$f")
+            done < <(ls -t "$dir"/*.jsonl 2>/dev/null)
+        done
+
+        if [ ${#files[@]} -eq 0 ]; then
+            echo "No .jsonl files found" >&2
+            return 1
+        fi
+
+        IFS=$'\n' files=($(ls -t "${files[@]}")); unset IFS
+
+        local display=()
+        for f in "${files[@]}"; do
+            local date=$(date -r "$f" '+%Y-%m-%d %H:%M')
+            local snippet=$(python3 -c "
+import sys, json
+with open(sys.argv[1]) as fh:
+    for line in fh:
+        msg = json.loads(line)
+        if msg.get('type') == 'user':
+            content = msg.get('message', {}).get('content', '')
+            if isinstance(content, str):
+                text = content
+            elif isinstance(content, list):
+                text = next((b['text'] for b in content if isinstance(b, dict) and b.get('type') == 'text'), '')
+            else:
+                text = ''
+            print(text[:80].replace(chr(10), ' '))
+            break
+" "$f" 2>/dev/null)
+            display+=("$date | ${snippet:-<empty>} | $f")
+        done
+
+        if command -v fzf &>/dev/null; then
+            jsonl=$(printf '%s\n' "${display[@]}" | fzf --prompt="Select conversation: " --layout=reverse | rev | cut -d'|' -f1 | rev | xargs)
+        else
+            echo "Available conversations:" >&2
+            for i in "${!display[@]}"; do
+                echo "  $((i+1))) ${display[$i]}" >&2
+            done
+            read -p "Select [1-${#display[@]}]: " choice < /dev/tty
+            jsonl=$(echo "${display[$((choice-1))]}" | rev | cut -d'|' -f1 | rev | xargs)
+        fi
+
+        if [ -z "$jsonl" ]; then
+            echo "No selection made." >&2
+            return 1
+        fi
+    fi
+
+    python3 -c "
+import sys, json
+for line in sys.stdin:
+    msg = json.loads(line)
+    if msg.get('type') == 'user':
+        content = msg.get('message', {}).get('content', '')
+        if isinstance(content, str):
+            print('**USER:**', content)
+        elif isinstance(content, list):
+            for block in content:
+                if isinstance(block, dict) and block.get('type') == 'text':
+                    print('**USER:**', block['text'])
+        print()
+        print('---')
+        print()
+    elif msg.get('type') == 'assistant':
+        for block in msg.get('message', {}).get('content', []):
+            if isinstance(block, dict) and block.get('type') == 'text':
+                print(block['text'])
+        print()
+        print('---')
+        print()
+" < "$jsonl"
+}
