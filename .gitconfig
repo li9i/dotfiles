@@ -6,11 +6,18 @@
 	logtree = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset)%C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
 	st = status
 	co = checkout
-    ls-staged = "!git diff --name-only --cached"
-    ls-unstaged = "!git diff --name-only"
-    ls-untracked = "!git ls-files --others --exclude-standard"
-    ls-changed-all = "!git status --porcelain | awk '{print $2}'"
+    
+    # Staged files (changes that will go into next commit)
+    ls-staged = "!git diff --staged --name-only"
 
+    # Unstaged modified files
+    ls-unstaged = "!git ls-files --modified --exclude-standard"
+
+    # Untracked files
+    ls-untracked = "!git ls-files --others --exclude-standard"
+
+    # All changed/untracked files (staged + unstaged + untracked)
+    ls-all = "!git diff --staged --name-only; git ls-files --modified --exclude-standard; git ls-files --others --exclude-standard"
 
 [core]
 	excludesfile = ~/.gitignore
