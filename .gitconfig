@@ -6,7 +6,11 @@
 	logtree = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset)%C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
 	st = status
 	co = checkout
-  changed-files = "!git status --porcelain | awk '{print $2}'"
+    files-staged = "!git diff --name-only --cached"
+    files-unstaged = "!git diff --name-only"
+    files-untracked = "!git ls-files --others --exclude-standard"
+    files-changed-all = "!git status --porcelain | awk '{print $2}'"
+
 
 [core]
 	excludesfile = ~/.gitignore
