@@ -324,4 +324,4 @@ set undodir=~/.vim/undo//
 
 " Running `:set iskeyword?` returns `@,48-57,_,192-255,:`.
 " This means that searching for word 'abcd' does not include 'abcd:'
-autocmd FileType python setlocal iskeyword-=:
+autocmd FileType * setlocal iskeyword-=:
