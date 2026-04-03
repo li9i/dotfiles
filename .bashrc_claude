@@ -1,4 +1,21 @@
 # ------------------------------------------------------------------------------
+# ╭─── Claude Code  ───────────────────────────────────────────────────────────╮
+# │                                                                            │
+# │                                                                            │
+# │                                                                            │
+# │                                 ▐▛███▜▌                                    │
+# │                                ▝▜█████▛▘                                   │
+# │                                  ▘▘ ▝▝                                     │
+# │                               Claude Pro                                   │
+# ╰────────────────────────────────────────────────────────────────────────────╯
+# ------------------------------------------------------------------------------
+# Table of contents
+# ------------------------------------------------------------------------------
+# claude-transcript()
+# claude-transcript-md()
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Get transcript of conversation. It's useful after executing /compact, when
 # you need access to previous, now hidden parts of the conversation.
 #
@@ -195,14 +212,17 @@ for line in sys.stdin:
                 if isinstance(block, dict) and block.get('type') == 'text':
                     print('**USER:**', block['text'])
         print()
-        print('---')
+        #print('---')
         print()
     elif msg.get('type') == 'assistant':
+        first = True
         for block in msg.get('message', {}).get('content', []):
             if isinstance(block, dict) and block.get('type') == 'text':
-                print(block['text'])
-        print()
-        print('---')
+                if first:
+                    print('**ASSISTANT:**', block['text'])
+                    first = False
+                else:
+                    print(block['text'])
         print()
 " < "$jsonl"
 }
