@@ -136,6 +136,7 @@ alias l='ls -CF'
 alias g='gvim'
 alias ncal=' ncal -M -b -w'
 alias glow='glow -lmt'
+export EDITOR=vim
 # ------------------------------------------------------------------------------
 # ls after cd: my absolute favorite
 cd() { builtin cd "$@" && ls; }
