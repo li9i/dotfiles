@@ -1,6 +1,6 @@
-source /opt/ros/humble/setup.bash
+source /opt/ros/jazzy/setup.bash
 #export ROS_LOCALHOST_ONLY=0
-#export ROS_DOMAIN_ID=128
+export ROS_DOMAIN_ID=36
 
 # DDS choice (https://github.com/sea-bass/turtlebot3_behavior_demos#local-setup)
 #export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
@@ -21,8 +21,8 @@ export RCUTILS_CONSOLE_OUTPUT_FORMAT="[{severity} {time}][{name}]: {message} ({f
 # ------------------------------------------------------------------------------
 # colcon command completion
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-eval "$(register-python-argcomplete3 ros2)"
-eval "$(register-python-argcomplete3 colcon)"
+eval "$(register-python-argcomplete ros2)"
+eval "$(register-python-argcomplete colcon)"
 
 # colcon cd
 source /usr/share/colcon_cd/function/colcon_cd.sh
