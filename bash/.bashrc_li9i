@@ -200,10 +200,6 @@ bind 'set menu-complete-display-prefix on'
 bind 'set colored-completion-prefix on'
 bind 'set colored-stats on'
 # ==============================================================================
-# GIT
-# ==============================================================================
-source ~/.bashrc_git
-# ==============================================================================
 # TMUX
 # ==============================================================================
 source ~/.tmux-bash-autocompletion
@@ -666,6 +662,16 @@ docker_reboot(){
   sudo systemctl daemon-reload && sudo systemctl restart docker
 }
 # ==============================================================================
+# Uncategorised
+# ==============================================================================
+# Claude code executable
+export PATH="$HOME/.local/bin:$PATH"
+
+# So you can broadcast to all terminals panes in terminator
+if pgrep -f "/usr/bin/ibus-daemon" > /dev/null; then
+    pkill ibus
+    echo "ibus killed"
+fi
 # ==============================================================================
 # ==============================================================================
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

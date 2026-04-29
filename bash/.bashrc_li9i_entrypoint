@@ -1,5 +1,6 @@
-# ------------------------------------------------------------------------------
-# .bashrc
+if [ -f ~/.bashrc_claude ]; then
+  . ~/.bashrc_claude
+fi
 if [ -f ~/.bashrc_git ]; then
   . ~/.bashrc_git
 fi
@@ -11,18 +12,4 @@ if [ -f ~/.bashrc_li9i_bash_autocompletion ]; then
 fi
 if [ -f ~/.bashrc_ros2 ]; then
   . ~/.bashrc_ros2
-fi
-if [ -f ~/.bashrc_claude ]; then
-  . ~/.bashrc_claude
-fi
-# ------------------------------------------------------------------------------
-bind 'set enable-bracketed-paste off'
-
-# Claude code executable
-export PATH="$HOME/.local/bin:$PATH"
-
-# So you can broadcast to all terminals panes in terminator
-if pgrep -f "/usr/bin/ibus-daemon" > /dev/null; then
-    pkill ibus
-    echo "ibus killed"
 fi
