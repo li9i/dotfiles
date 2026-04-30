@@ -12,7 +12,7 @@ git clone git@github.com:li9i/dotfiles.git ~/
 #  * https://www.gnu.org/software/stow/
 #  * https://linuxvox.com/blog/stow-linux/
 cd ~/dotfiles
-stow bash git octave tmux vim
+stow --dotfiles bash git octave tmux vim
 ```
 
 File `bashrc_li9i_entrypoint` serves as an aggregator of all the different `.bashrc*` files
