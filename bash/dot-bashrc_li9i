@@ -398,6 +398,51 @@ EOF
 }
 # ------------------------------------------------------------------------------
 # ==============================================================================
+# caserepl --- case-insensitive, case-preserving find & replace across files.
+#
+# Replaces every occurrence of a word with another while carrying over the
+# original's capitalisation, character by character:
+#   Pitch -> Metch,  PITCH -> METCH,  piTCH -> meTCH,  pitch -> metch
+#
+# Matching is case-insensitive; the search term is treated as a literal
+# string (regex-special characters like . or * are not interpreted).
+# Only files that contain the word are edited, and each edited file gets a
+# .bak backup beside it. Directory arguments are searched recursively;
+# binary files are skipped.
+#
+# Usage:
+#   caserepl <search> <replace> <file-or-dir> [more paths...]
+#
+# Examples:
+#   caserepl pitch metch .            # recurse the current directory
+#   caserepl pitch metch a.txt b.txt  # specific files
+#   caserepl pitch metch src/ docs/   # multiple paths
+#
+# After confirming results, remove backups with:
+#   find . -name '*.bak' -delete
+#
+# Notes:
+#   - Matches inside larger words too (PitchCount -> MetchCount). For whole
+#     words only, wrap the pattern in \b: s{\b(\Q$ENV{SEARCH}\E)\b}{...}.
+#   - Case mapping is exact when search and replacement are the same length;
+#     any extra trailing characters in a longer replacement come out lowercase.
+# ==============================================================================
+caserepl() {
+  if [ "$#" -lt 3 ]; then
+    echo "usage: caserepl <search> <replace> <file-or-dir> [more...]" >&2
+    return 1
+  fi
+  local search=$1 replace=$2
+  shift 2
+  grep -rilZFI -e "$search" "$@" \
+    | SEARCH=$search REPLACE=$replace xargs -0 -r perl -i.bak -pe '
+        s{(\Q$ENV{SEARCH}\E)}{
+          my @o = split //, $1;
+          my @n = split //, $ENV{REPLACE};
+          join "", map { $_ <= $#o && $o[$_] =~ /[A-Z]/ ? uc $n[$_] : lc $n[$_] } 0..$#n;
+        }gie'
+}
+# ==============================================================================
 # Grep text and replace it
 # Usage: replace_text [--dry-run] <search_pattern> <replacement_text>
 # ==============================================================================
