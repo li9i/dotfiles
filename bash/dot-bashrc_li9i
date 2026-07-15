@@ -136,6 +136,7 @@ alias l='ls -CF'
 alias g='gvim'
 alias ncal=' ncal -M -b -w'
 alias glow='glow -lmt'
+alias oc='octave-cli'
 export EDITOR=vim
 # ------------------------------------------------------------------------------
 # ls after cd: my absolute favorite
@@ -443,7 +444,7 @@ caserepl() {
         }gie'
 }
 # ==============================================================================
-# Grep text and replace it
+# Grep text and replace it. Matches exact case.
 # Usage: replace_text [--dry-run] <search_pattern> <replacement_text>
 # ==============================================================================
 grep_and_replace() {
