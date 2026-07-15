@@ -1,15 +1,15 @@
-if [ -f ~/.bashrc_claude ]; then
-  . ~/.bashrc_claude
-fi
-if [ -f ~/.bashrc_git ]; then
-  . ~/.bashrc_git
-fi
 if [ -f ~/.bashrc_li9i ]; then
   . ~/.bashrc_li9i
 fi
 if [ -f ~/.bashrc_li9i_bash_autocompletion ]; then
   . ~/.bashrc_li9i_bash_autocompletion
 fi
+if [ -f ~/.bashrc_git ]; then
+  . ~/.bashrc_git
+fi
 if [ -f ~/.bashrc_ros2 ]; then
   . ~/.bashrc_ros2
+fi
+if [ -f ~/.bashrc_claude ]; then
+  . ~/.bashrc_claude
 fi
