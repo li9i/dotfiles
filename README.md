@@ -1,9 +1,13 @@
 # Getting started
 
+## Clone repo
+
 ```bash
 # Clone repo in the home directory
 git clone git@github.com:li9i/dotfiles.git ~/
 ```
+
+## Stow contents
 
 ```bash
 # Use stow to symlink the contents of the directories under ~/dotfiles to one
@@ -14,6 +18,8 @@ git clone git@github.com:li9i/dotfiles.git ~/
 cd ~/dotfiles
 stow --dotfiles bash git octave tmux vim
 ```
+
+## Entrypoint
 
 File `bashrc_li9i_entrypoint` serves as an aggregator of all the different `.bashrc*` files
 
