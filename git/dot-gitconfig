@@ -39,3 +39,4 @@
 	defaultBranch = master
 [merge]
 	tool = meld
+  conflictStyle = zdiff3
