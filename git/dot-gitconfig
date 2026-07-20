@@ -7,17 +7,20 @@
 	st = status
 	co = checkout
 
-    # Staged files (changes that will go into next commit)
-    ls-staged = "!git diff --staged --name-only"
+  # Staged files (changes that will go into next commit)
+  ls-staged = "!git diff --staged --name-only"
 
-    # Unstaged modified files
-    ls-unstaged = "!git ls-files --modified --exclude-standard"
+  # Unstaged modified files
+  ls-unstaged = "!git ls-files --modified --exclude-standard"
 
-    # Untracked files
-    ls-untracked = "!git ls-files --others --exclude-standard"
+  # Untracked files
+  ls-untracked = "!git ls-files --others --exclude-standard"
 
-    # All changed/untracked files (staged + unstaged + untracked)
-    ls-all = "!git diff --staged --name-only; git ls-files --modified --exclude-standard; git ls-files --others --exclude-standard"
+  # All changed/untracked files (staged + unstaged + untracked)
+  ls-all = "!git diff --staged --name-only; git ls-files --modified --exclude-standard; git ls-files --others --exclude-standard"
+
+  # Beautify reflog
+  reflog2 = log -g --pretty=format:'%C(yellow)%h %C(cyan)%gd %C(green)%cd%C(auto)%d%C(reset) %gs'
 
 [core]
 	excludesfile = ~/.gitignore
