@@ -41,3 +41,5 @@ Thumbs.db
 # General #
 .*.swp
 *.d
+
+**/.claude/settings.local.json
